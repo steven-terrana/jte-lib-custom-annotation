@@ -2,10 +2,7 @@
 
 Demonstrates how a library developer could create a custom annotation and then query loaded libraries to find the annotated methods.
 
-!!! warning
-
-    If you stumble upon this, proceed with caution. I don't guarantee it will always work
-    and it's not a "supported" JTE feature.
+>If you stumble upon this, proceed with caution. I don't guarantee it will always work and it's not a "supported" JTE feature.
 
 ## How It Works
 
