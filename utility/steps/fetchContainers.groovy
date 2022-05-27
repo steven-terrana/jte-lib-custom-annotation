@@ -1,7 +1,5 @@
 import Container
 import org.boozallen.plugins.jte.init.primitives.TemplatePrimitiveCollector
-import org.boozallen.plugins.jte.init.primitives.hooks.AnnotatedMethod
-import org.boozallen.plugins.jte.init.primitives.hooks.Hooks
 import org.boozallen.plugins.jte.init.primitives.injectors.StepWrapper
 
 @Init
@@ -18,10 +16,16 @@ void call(){
   //   a different classloader? maybe a JTE 'bug', though i'm not sure what
   //   we're doing here is something i want to formally "support"
   steps.each{ step ->
-    step.getScript().class.methods.each{ method ->
+    def script = step.getScript()
+    script.class.methods.each{ method ->
       method.getAnnotations().each{ a ->
         if(a.annotationType().toString() == Container.toString()){
-          containers << a.value()
+          String v = a.value().join()
+          if(v) containers.push(v)
+          def b = this.getBinding()
+
+          String d = a.dynamic().newInstance(script, script).call()
+          if(d) containers.push(d)
         }
       }
     }

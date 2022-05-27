@@ -2,11 +2,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME
 import java.lang.annotation.Retention
 
 /**
- * Annotation marking a library step method to potentially execute after other step executions
+ * mark library step methods with this annotation to register
+ * a container for the pipeline run's pod template
  */
 @Retention(RUNTIME)
 @interface Container{
 
-    String value()
+    String[] value() default []
+
+    Class dynamic() default {}
 
 }
