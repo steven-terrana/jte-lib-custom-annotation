@@ -9,23 +9,20 @@ void call(){
   // fetch the loaded library steps
   TemplatePrimitiveCollector jte = TemplatePrimitiveCollector.current()
   List<StepWrapper> steps = jte.getPrimitives().findAll{ it in StepWrapper }
-  // find all of the Container annotations and fetch their value
-  // NOTE:  
-  //   i'm pretty sure you have to compare Strings instead of just doing
-  //   method.getAnnotation(Container) because each step is compiled with 
-  //   a different classloader? maybe a JTE 'bug', though i'm not sure what
-  //   we're doing here is something i want to formally "support"
+  // get the annotation's value 
   steps.each{ step ->
     def script = step.getScript()
     script.class.methods.each{ method ->
-      method.getAnnotations().each{ a ->
-        if(a.annotationType().toString() == Container.toString()){
-          String v = a.value().join()
-          if(v) containers.push(v)
-          def b = this.getBinding()
+      method.getAnnotations().each{ annotation ->
+        if(annotation instanceof Container){
+          // get static values: @Container("someContainer") or @Container(["a", "b"])
+          String value = a.value().join()
+          if(value) containers.push(v)
 
-          String d = a.dynamic().newInstance(script, script).call()
-          if(d) containers.push(d)
+          // get dynamic values: @Container(dynamic={ // returns a string or array of Strings })
+          def d = a.dynamic().newInstance(script, script).call()
+          if(d instanceof String) containers.push(d)
+          elseif (d instanceof List<String>) containers.addAll(d)
         }
       }
     }
