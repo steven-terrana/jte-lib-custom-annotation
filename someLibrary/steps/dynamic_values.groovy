@@ -2,6 +2,7 @@
 import Container
 
 @Container(dynamic = { resource("container.yaml") })
-void call(){
-  println "scan - not annotated"
-}
+void call(){}
+
+@Container(dynamic = { ["dynamic_value_1", "dynamic_value_2"] })
+void doesNotMatter()
