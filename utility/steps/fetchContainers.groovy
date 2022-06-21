@@ -16,7 +16,7 @@ void call(){
       method.getAnnotations().each{ annotation ->
         if(annotation instanceof Container){
           // get static values: @Container("someContainer") or @Container(["a", "b"])
-          String value = a.value().join()
+          String value = annotation.value().join()
           if(value) containers.push(v)
 
           // get dynamic values: @Container(dynamic={ // returns a string or array of Strings })
