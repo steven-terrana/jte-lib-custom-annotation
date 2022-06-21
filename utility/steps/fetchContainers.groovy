@@ -18,7 +18,7 @@ void call(){
           // get static values: @Container("someContainer") or @Container(["a", "b"])
           def value = annotation.value()
           if(value instanceof String) containers.push(value)
-          else if (value instanceof List<String>) containers.addAll(value)
+          else if (value in Collection) containers.addAll(value)
           
           // get dynamic values: @Container(dynamic={ // returns a string or array of Strings })
           def d = annotation.dynamic().newInstance(script, script).call()
