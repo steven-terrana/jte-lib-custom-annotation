@@ -20,7 +20,7 @@ void call(){
           if(value) containers.push(value)
 
           // get dynamic values: @Container(dynamic={ // returns a string or array of Strings })
-          def d = a.dynamic().newInstance(script, script).call()
+          def d = annotation.dynamic().newInstance(script, script).call()
           if(d instanceof String) containers.push(d)
           elseif (d instanceof List<String>) containers.addAll(d)
         }
