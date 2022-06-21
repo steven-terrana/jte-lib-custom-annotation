@@ -16,7 +16,7 @@ void call(){
       method.getAnnotations().each{ annotation ->
         if(annotation instanceof Container){
           // get static values: @Container("someContainer") or @Container(["a", "b"])
-          def value = annotation.value().join()
+          def value = annotation.value()
           if(value instanceof String) containers.push(value)
           else if (value instanceof List<String>) containers.addAll(value)
           
