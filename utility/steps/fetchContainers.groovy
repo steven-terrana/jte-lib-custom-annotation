@@ -16,9 +16,10 @@ void call(){
       method.getAnnotations().each{ annotation ->
         if(annotation instanceof Container){
           // get static values: @Container("someContainer") or @Container(["a", "b"])
-          String value = annotation.value().join()
-          if(value) containers.push(value)
-
+          def value = annotation.value().join()
+          if(value instanceof String) containers.push(value)
+          else if (value instanceof List<String>) containers.addAll(value)
+          
           // get dynamic values: @Container(dynamic={ // returns a string or array of Strings })
           def d = annotation.dynamic().newInstance(script, script).call()
           if(d instanceof String) containers.push(d)
